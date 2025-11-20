@@ -23,7 +23,20 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 
-app.use(cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'DELETE'] }));
+app.use(
+  cors({
+    origin: [
+      'https://megamart-backend-1.onrender.com',
+      'capacitor://localhost',
+      'http://localhost',
+      'ionic://localhost',
+      'http://localhost:3000',
+      'http://localhost:5173',
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  })
+);
 app.use(express.json({ limit: '20mb' }));
 app.use(express.urlencoded({ extended: true }));
 
