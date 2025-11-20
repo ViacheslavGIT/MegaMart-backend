@@ -50,13 +50,22 @@ app.use('/api/user', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 
-const dist = path.join(__dirname, '../dist');
-app.use(express.static(dist));
-
-app.get('*', (_, res) => {
-  res.sendFile(path.join(dist, 'index.html'));
+app.get('/', (req, res) => {
+  res.json({
+    message: '🚀 MegaMart Backend API is running!',
+    version: '1.0.0',
+    timestamp: new Date().toISOString(),
+    database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
+  });
 });
 
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
+    timestamp: new Date().toISOString(),
+  });
+});
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
